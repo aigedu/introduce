@@ -4,7 +4,7 @@ import { Subject, SubjectId } from './types';
 export const SUBJECTS: Subject[] = [
   {
     id: SubjectId.SCRATCH,
-    title: "Scratch Programming",
+    title: "Scratch",
     description: "Lập trình kéo thả trực quan, sáng tạo câu chuyện và trò chơi.",
     introduction: "Scratch là ngôn ngữ lập trình trực quan lớn nhất thế giới dành cho trẻ em, được phát triển bởi MIT Media Lab. Tại AIG EDUCATION, học sinh không chỉ học viết mã mà còn học cách suy nghĩ sáng tạo, suy luận có hệ thống và làm việc cộng tác.",
     software: "Scratch 3.0 (Nền tảng Web & Offline)",

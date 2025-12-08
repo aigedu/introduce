@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import SubjectDetail from './components/SubjectDetail';
 import { SUBJECTS } from './constants';
 import { Subject } from './types';
-import { ArrowRight, Code, Cpu, Layers, PenTool, Wifi } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Layers, PenTool, Wifi, Hammer } from 'lucide-react';
 
 function App() {
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
@@ -18,6 +18,7 @@ function App() {
          case "📡": return <Wifi className="w-8 h-8 text-white" />; // Rio
          case "🏰": return <Layers className="w-8 h-8 text-white" />;
          case "⚡": return <PenTool className="w-8 h-8 text-white" />;
+         case "🔨": return <Hammer className="w-8 h-8 text-white" />; // Tink Creative
          default: return <Code className="w-8 h-8 text-white" />;
      }
   }

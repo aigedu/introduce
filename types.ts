@@ -8,6 +8,11 @@ export enum SubjectId {
   TINK_CREATIVE = 'tink_creative'
 }
 
+export interface VideoItem {
+  name: string;
+  link: string;
+}
+
 export interface UsageGuideStep {
   title: string;
   description: string;

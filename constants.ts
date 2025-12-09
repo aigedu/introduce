@@ -6,8 +6,8 @@ export const SUBJECTS: Subject[] = [
   {
     id: SubjectId.TINK_CREATIVE,
     title: "Tink Sáng tạo",
-    description: "Bộ môn sáng chế, kết hợp cơ khí và nghệ thuật (STEAM).",
-    introduction: "Tink Sáng tạo (Creative Tinkering) là bộ môn giáo dục STEAM tập trung vào tư duy sáng chế và kỹ năng thực hành (Hands-on). Tại đây, học sinh được khuyến khích 'nghịch ngợm' có mục đích với các vật liệu đa dạng như gỗ, bìa các tông, động cơ DC, đèn LED và các dụng cụ cơ khí. Môn học giúp biến những ý tưởng trừu tượng trong đầu thành các mô hình vật lý có thể chuyển động và hoạt động được.",
+    description: "Bộ môn sáng chế, kết hợp cơ khí và nghệ thuật (STEM).",
+    introduction: "Tink Sáng tạo (Creative Tinkering) là bộ môn giáo dục STEM tập trung vào tư duy sáng chế và kỹ năng thực hành (Hands-on). Tại đây, học sinh được khuyến khích 'nghịch ngợm' có mục đích với các vật liệu đa dạng như gỗ, bìa các tông, động cơ DC, đèn LED và các dụng cụ cơ khí. Môn học giúp biến những ý tưởng trừu tượng trong đầu thành các mô hình vật lý có thể chuyển động và hoạt động được.",
     software: "Dụng cụ chế tạo & Vật liệu tái chế",
     videoTutorials: [
         "https://www.youtube.com/embed/5r3X-c2H-Xk", // Example: Cardboard Automata

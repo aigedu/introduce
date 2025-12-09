@@ -1,44 +1,17 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Subject, SubjectId } from '../types';
+import { Subject, SubjectId, VideoItem } from '../types';
 import { ArrowLeft, BookOpen, Monitor, Target, Trophy, ChevronDown, Settings, Lightbulb, GraduationCap, ExternalLink, PlayCircle, Search, Youtube, Loader2 } from 'lucide-react';
 
 interface SubjectDetailProps {
   subject: Subject;
   onBack: () => void;
-}
-
-interface VideoItem {
-  name: string;
-  link: string;
+  tinkVideos?: VideoItem[];
 }
 
 // Component Search Video for Tink Creative
-const VideoSearch: React.FC = () => {
-  const [videos, setVideos] = useState<VideoItem[]>([]);
+const VideoSearch: React.FC<{ videos: VideoItem[] }> = ({ videos }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    // Gọi API JSON từ Google Apps Script
-    fetch("https://script.google.com/macros/s/AKfycbz8psYKELXYW8UQRI4Bd-jGdPS7UWaEXFVD-TVahVppeiexUjNL3y0CdbcwT9rnfYsK8w/exec")
-      .then(res => res.json())
-      .then(data => {
-        // Đảm bảo data là mảng
-        if (Array.isArray(data)) {
-          setVideos(data);
-        } else {
-          setVideos([]);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Lỗi tải video:", err);
-        setError(true);
-        setLoading(false);
-      });
-  }, []);
 
   // Filter videos by name AND ensure link exists and is not empty
   const filteredVideos = videos.filter(v => 
@@ -60,48 +33,37 @@ const VideoSearch: React.FC = () => {
         />
       </div>
 
-      {loading ? (
-        <div className="flex flex-col items-center justify-center py-10 text-slate-500">
-          <Loader2 className="w-8 h-8 animate-spin mb-2 text-[#A51C30]" />
-          <p>Đang tải danh sách video...</p>
-        </div>
-      ) : error ? (
-        <div className="text-center py-8 text-red-500 bg-red-50 rounded-xl border border-red-100">
-          <p>Không thể tải dữ liệu. Vui lòng kiểm tra kết nối mạng.</p>
-        </div>
-      ) : (
-        <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-          {filteredVideos.length > 0 ? (
-            filteredVideos.map((v, idx) => (
-              <a
-                key={idx}
-                href={v.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#A51C30]/30 rounded-xl transition-all hover:shadow-md group"
-              >
-                <div className="bg-red-100 p-3 rounded-full flex-shrink-0 group-hover:bg-red-600 transition-colors">
-                  <Youtube className="w-6 h-6 text-red-600 group-hover:text-white transition-colors" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-slate-800 font-medium text-base group-hover:text-[#A51C30] transition-colors line-clamp-2">
-                    {v.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-1 flex items-center">
-                    Xem trên YouTube <ExternalLink className="w-3 h-3 ml-1" />
-                  </p>
-                </div>
-              </a>
-            ))
-          ) : (
-            <div className="text-center py-8 text-slate-500 italic">
-              {searchTerm 
-                ? `Không tìm thấy video nào phù hợp với từ khóa "${searchTerm}"`
-                : "Hiện chưa có video hướng dẫn nào."}
-            </div>
-          )}
-        </div>
-      )}
+      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+        {filteredVideos.length > 0 ? (
+          filteredVideos.map((v, idx) => (
+            <a
+              key={idx}
+              href={v.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#A51C30]/30 rounded-xl transition-all hover:shadow-md group"
+            >
+              <div className="bg-red-100 p-3 rounded-full flex-shrink-0 group-hover:bg-red-600 transition-colors">
+                <Youtube className="w-6 h-6 text-red-600 group-hover:text-white transition-colors" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-slate-800 font-medium text-base group-hover:text-[#A51C30] transition-colors line-clamp-2">
+                  {v.name}
+                </h4>
+                <p className="text-xs text-slate-500 mt-1 flex items-center">
+                  Xem trên YouTube <ExternalLink className="w-3 h-3 ml-1" />
+                </p>
+              </div>
+            </a>
+          ))
+        ) : (
+          <div className="text-center py-8 text-slate-500 italic">
+            {searchTerm 
+              ? `Không tìm thấy video nào phù hợp với từ khóa "${searchTerm}"`
+              : "Hiện chưa có video hướng dẫn nào hoặc đang tải..."}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -170,7 +132,7 @@ const AccordionSection: React.FC<{
   );
 };
 
-const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack }) => {
+const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack, tinkVideos = [] }) => {
   
   return (
     <div className="pt-24 pb-20 min-h-screen max-w-5xl mx-auto px-4">
@@ -224,7 +186,7 @@ const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack }) => {
             colorClass="text-red-600"
           >
             {subject.id === SubjectId.TINK_CREATIVE ? (
-              <VideoSearch />
+              <VideoSearch videos={tinkVideos} />
             ) : (
               <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {subject.videoTutorials && subject.videoTutorials.map((videoUrl, index) => (

@@ -1,12 +1,72 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Subject } from '../types';
-import { ArrowLeft, BookOpen, Monitor, Target, Trophy, ChevronDown, Settings, Lightbulb, GraduationCap } from 'lucide-react';
+import { Subject, SubjectId, VideoItem } from '../types';
+import { ArrowLeft, BookOpen, Monitor, Target, Trophy, ChevronDown, Settings, Lightbulb, GraduationCap, ExternalLink, PlayCircle, Search, Youtube, Loader2 } from 'lucide-react';
 
 interface SubjectDetailProps {
   subject: Subject;
   onBack: () => void;
+  tinkVideos?: VideoItem[];
 }
+
+// Component Search Video for Tink Creative
+const VideoSearch: React.FC<{ videos: VideoItem[] }> = ({ videos }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter videos by name AND ensure link exists and is not empty
+  const filteredVideos = videos.filter(v => 
+    v.name.toLowerCase().includes(searchTerm.toLowerCase()) && v.link && v.link.trim() !== ""
+  );
+
+  return (
+    <div className="p-5">
+      <div className="relative mb-6">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Search className="h-5 w-5 text-slate-400" />
+        </div>
+        <input
+          type="text"
+          className="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:placeholder-slate-300 focus:ring-2 focus:ring-[#A51C30] focus:border-transparent sm:text-sm transition-shadow shadow-sm"
+          placeholder="Nhập tên video bạn muốn tìm..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+        {filteredVideos.length > 0 ? (
+          filteredVideos.map((v, idx) => (
+            <a
+              key={idx}
+              href={v.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#A51C30]/30 rounded-xl transition-all hover:shadow-md group"
+            >
+              <div className="bg-red-100 p-3 rounded-full flex-shrink-0 group-hover:bg-red-600 transition-colors">
+                <Youtube className="w-6 h-6 text-red-600 group-hover:text-white transition-colors" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-slate-800 font-medium text-base group-hover:text-[#A51C30] transition-colors line-clamp-2">
+                  {v.name}
+                </h4>
+                <p className="text-xs text-slate-500 mt-1 flex items-center">
+                  Xem trên YouTube <ExternalLink className="w-3 h-3 ml-1" />
+                </p>
+              </div>
+            </a>
+          ))
+        ) : (
+          <div className="text-center py-8 text-slate-500 italic">
+            {searchTerm 
+              ? `Không tìm thấy video nào phù hợp với từ khóa "${searchTerm}"`
+              : "Hiện chưa có video hướng dẫn nào hoặc đang tải..."}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 // Helper Component for Accordion Sections
 const AccordionSection: React.FC<{
@@ -72,7 +132,7 @@ const AccordionSection: React.FC<{
   );
 };
 
-const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack }) => {
+const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack, tinkVideos = [] }) => {
   
   return (
     <div className="pt-24 pb-20 min-h-screen max-w-5xl mx-auto px-4">
@@ -118,22 +178,67 @@ const SubjectDetail: React.FC<SubjectDetailProps> = ({ subject, onBack }) => {
           </div>
         </AccordionSection>
 
-        {/* Software Section */}
-        <AccordionSection 
-          title="Phần mềm môn học" 
-          icon={<Monitor className="w-5 h-5" />}
-          colorClass="text-purple-600"
-        >
-          <div className="p-5">
-            <div className="inline-block px-4 py-2 bg-slate-100 rounded-lg text-slate-800 text-sm font-medium border border-slate-200">
-              {subject.software}
+        {/* Video Tutorials Section - Dynamic for Tink Creative, Static for others */}
+        {((subject.videoTutorials && subject.videoTutorials.length > 0) || subject.id === SubjectId.TINK_CREATIVE) && (
+          <AccordionSection 
+            title="Video hướng dẫn" 
+            icon={<PlayCircle className="w-5 h-5" />}
+            colorClass="text-red-600"
+          >
+            {subject.id === SubjectId.TINK_CREATIVE ? (
+              <VideoSearch videos={tinkVideos} />
+            ) : (
+              <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {subject.videoTutorials && subject.videoTutorials.map((videoUrl, index) => (
+                  <div key={index} className="rounded-xl overflow-hidden shadow-sm border border-slate-200 bg-black aspect-video">
+                    <iframe 
+                      width="100%" 
+                      height="100%" 
+                      src={videoUrl} 
+                      title={`${subject.title} tutorial ${index + 1}`} 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                ))}
+              </div>
+            )}
+          </AccordionSection>
+        )}
+
+        {/* Software Section - Hide for Tink Creative */}
+        {subject.id !== SubjectId.TINK_CREATIVE && (
+          <AccordionSection 
+            title="Phần mềm / Dụng cụ môn học" 
+            icon={<Monitor className="w-5 h-5" />}
+            colorClass="text-purple-600"
+          >
+            <div className="p-5">
+              {subject.softwareUrl ? (
+                <a 
+                  href={subject.softwareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 rounded-lg text-slate-800 text-sm font-medium border border-slate-200 transition-all group shadow-sm hover:shadow"
+                  title="Mở phần mềm trong tab mới"
+                >
+                  {subject.software}
+                  <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-purple-600" />
+                </a>
+              ) : (
+                <div className="inline-block px-4 py-2 bg-slate-100 rounded-lg text-slate-800 text-sm font-medium border border-slate-200">
+                  {subject.software}
+                </div>
+              )}
             </div>
-          </div>
-        </AccordionSection>
+          </AccordionSection>
+        )}
 
         {/* Software Usage Guide Section */}
         <AccordionSection 
-          title="Hướng dẫn sử dụng phần mềm" 
+          title="Hướng dẫn thực hành / Sử dụng" 
           icon={<Settings className="w-5 h-5" />}
           colorClass="text-pink-600"
         >

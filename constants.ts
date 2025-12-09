@@ -1,13 +1,74 @@
 
+
 import { Subject, SubjectId } from './types';
 
 export const SUBJECTS: Subject[] = [
   {
+    id: SubjectId.TINK_CREATIVE,
+    title: "Tink Sáng tạo",
+    description: "Bộ môn sáng chế, kết hợp cơ khí và nghệ thuật (STEM).",
+    introduction: "Tink Sáng tạo (Creative Tinkering) là bộ môn giáo dục STEM tập trung vào tư duy sáng chế và kỹ năng thực hành (Hands-on). Tại đây, học sinh được khuyến khích 'nghịch ngợm' có mục đích với các vật liệu đa dạng như gỗ, bìa các tông, động cơ DC, đèn LED và các dụng cụ cơ khí. Môn học giúp biến những ý tưởng trừu tượng trong đầu thành các mô hình vật lý có thể chuyển động và hoạt động được.",
+    software: "Dụng cụ chế tạo & Vật liệu tái chế",
+    videoTutorials: [
+        "https://www.youtube.com/embed/5r3X-c2H-Xk", // Example: Cardboard Automata
+        "https://www.youtube.com/embed/Rj04m7WkXy8"  // Example: Hydraulic Arm
+    ],
+    usageGuide: [
+      {
+        title: "Bước 1: Quan sát & Lên ý tưởng (Ideate)",
+        description: "- Quan sát các vấn đề trong cuộc sống hoặc các cơ cấu chuyển động thú vị.\n- Phác thảo ý tưởng ra giấy (Sketching): Vẽ hình dáng sản phẩm, dự kiến các bộ phận chuyển động và vật liệu cần dùng."
+      },
+      {
+        title: "Bước 2: Chuẩn bị vật liệu & Dụng cụ",
+        description: "- Vật liệu: Bìa các tông, que kem, nắp chai, dây thun, xiên tre, súng bắn keo, động cơ giảm tốc, pin...\n- Dụng cụ an toàn: Găng tay, kính bảo hộ (nếu cần), kéo, kìm cắt."
+      },
+      {
+        title: "Bước 3: Chế tạo & Lắp ráp (Prototyping)",
+        description: "- Gia công chi tiết: Cắt, dán, đục lỗ theo bản vẽ.\n- Lắp ráp cơ khí: Gắn trục, bánh xe, đòn bẩy, hệ thống truyền động (dây đai, bánh răng).\n- Kết nối mạch điện (nếu có): Nối pin với động cơ, công tắc."
+      },
+      {
+        title: "Bước 4: Thử nghiệm & Cải tiến (Test & Refine)",
+        description: "- Chạy thử mô hình. Nếu thất bại (kẹt cơ cấu, tuột dây...), hãy tìm nguyên nhân và sửa chữa.\n- Trang trí sản phẩm để tăng tính thẩm mỹ."
+      }
+    ],
+    objectives: [
+      "Hiểu nguyên lý hoạt động của các máy đơn giản: Đòn bẩy, Bánh xe & Trục, Ròng rọc.",
+      "Rèn luyện kỹ năng sử dụng dụng cụ thủ công và tư duy thiết kế kỹ thuật (Engineering Design Process).",
+      "Khuyến khích văn hóa 'Maker': Dám thử nghiệm, chấp nhận thất bại và không ngừng cải tiến."
+    ],
+    outcomes: [
+      "Tự tay chế tạo được các đồ chơi chuyển động (Automata), xe thế năng, cánh tay thủy lực.",
+      "Hiểu về kết cấu chịu lực và truyền động cơ khí căn bản.",
+      "Nâng cao sự khéo léo của đôi tay và tư duy thẩm mỹ."
+    ],
+    referenceProblems: [
+      {
+        title: "Cánh tay Robot thủy lực",
+        problemStatement: "Chế tạo một cánh tay robot bằng bìa các tông có thể gắp vật nhẹ, sử dụng nguyên lý thủy lực từ xi lanh tiêm.",
+        referenceLecture: "Nguyên lý Pascal & Thủy lực:\n- Nước không chịu nén. Khi đẩy pít-tông ở xi lanh A (tay điều khiển), áp suất truyền qua ống dẫn làm pít-tông ở xi lanh B (trên cánh tay) chuyển động.\n- Kết cấu: Sử dụng các khớp xoay bằng xiên tre hoặc bu lông."
+      },
+      {
+        title: "Hộp múa rối tự động (Automata)",
+        problemStatement: "Tạo một hộp múa rối trong đó nhân vật chuyển động lên xuống hoặc xoay tròn khi quay tay quay.",
+        referenceLecture: "Cơ cấu Cam & Trục khuỷu:\n- Cam (Mấu): Biến chuyển động quay thành chuyển động tịnh tiến (lên/xuống).\n- Trục khuỷu: Biến chuyển động quay thành chuyển động lắc.\n- Vật liệu: Hộp giày, xiên tre làm trục, nắp chai nhựa làm bánh cam."
+      },
+      {
+        title: "Xe đua phản lực bóng bay",
+        problemStatement: "Chế tạo xe đua chạy bằng năng lượng gió từ bóng bay. Yêu cầu xe chạy thẳng và xa nhất có thể.",
+        referenceLecture: "Định luật III Newton & Ma sát:\n- Lực đẩy: Không khí phụt ra sau tạo lực đẩy xe về trước.\n- Giảm ma sát: Trục bánh xe phải trơn tru, bánh xe tròn đều.\n- Khí động học: Xe cần nhẹ và cân đối."
+      }
+    ],
+    icon: "🔨",
+    imageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1000",
+    gradient: "from-amber-500 to-orange-600"
+  },
+  {
     id: SubjectId.SCRATCH,
-    title: "Scratch Programming",
+    title: "Scratch",
     description: "Lập trình kéo thả trực quan, sáng tạo câu chuyện và trò chơi.",
     introduction: "Scratch là ngôn ngữ lập trình trực quan lớn nhất thế giới dành cho trẻ em, được phát triển bởi MIT Media Lab. Tại AIG EDUCATION, học sinh không chỉ học viết mã mà còn học cách suy nghĩ sáng tạo, suy luận có hệ thống và làm việc cộng tác.",
     software: "Scratch 3.0 (Nền tảng Web & Offline)",
+    softwareUrl: "https://scratch.mit.edu/",
     usageGuide: [
       {
         title: "Bước 1: Truy cập & Thiết lập ngôn ngữ",
@@ -63,6 +124,7 @@ export const SUBJECTS: Subject[] = [
     description: "Xe robot giáo dục STEM, hỗ trợ lập trình kéo thả và Python.",
     introduction: "Robot Rover là bộ kit xe robot giáo dục được phát triển bởi OhStem, dành cho học sinh từ 8 tuổi trở lên. Rover giúp học sinh tiếp cận kiến thức về robot, lập trình và tư duy logic thông qua việc điều khiển xe di chuyển, tránh vật cản và dò line. Robot tương thích với ngôn ngữ lập trình kéo thả (Blockly) và Python, phù hợp cho cả người mới bắt đầu và nâng cao.",
     software: "OhStem App (Mobile) & OhStem Code (Web)",
+    softwareUrl: "https://app.ohstem.vn/",
     usageGuide: [
       {
         title: "Bước 1: Cài đặt ứng dụng",
@@ -113,6 +175,7 @@ export const SUBJECTS: Subject[] = [
     description: "Robot giáo dục mầm non, lập trình không cần màn hình.",
     introduction: "Robot Rio là bộ sản phẩm robot giáo dục dành cho trẻ mầm non (3-7 tuổi) theo hướng tiếp cận Screen-free (Không dùng màn hình). Rio giúp trẻ phát triển tư duy logic, định hướng không gian và giải quyết vấn đề thông qua các nút bấm vật lý trên lưng robot và hệ thống bản đồ, thẻ bài tương tác phong phú, giúp trẻ vừa học vừa chơi một cách tự nhiên.",
     software: "Lập trình nút bấm vật lý (Unplugged)",
+    softwareUrl: "https://ohstem.vn",
     usageGuide: [
       {
         title: "Bước 1: Khởi động Robot Rio",
@@ -163,6 +226,7 @@ export const SUBJECTS: Subject[] = [
     description: "Thiết kế 3D đơn giản, biến ý tưởng thành hiện thực.",
     introduction: "Makers Empire là phần mềm thiết kế 3D thân thiện, giúp học sinh tiểu học làm quen với tư duy không gian 3 chiều. Chương trình khuyến khích học sinh quan sát thế giới xung quanh và hiện thực hóa ý tưởng của mình thành các mô hình kỹ thuật số.",
     software: "Makers Empire 3D App",
+    softwareUrl: "https://www.makersempire.com/",
     usageGuide: [
        {
         title: "Bước 1: Đăng nhập & Tạo Avatar",
@@ -213,6 +277,7 @@ export const SUBJECTS: Subject[] = [
     description: "Kết hợp thiết kế 3D CAD, Lập trình khối và Mạch điện tử.",
     introduction: "Tinkercad là một ứng dụng web miễn phí của Autodesk, bao gồm 3 phân hệ chính: 3D Design (Thiết kế 3D), Circuits (Mạch điện tử) và Codeblocks (Lập trình khối). Đây là nền tảng lý tưởng để người mới bắt đầu khám phá STEM, từ việc tạo ra mô hình in 3D đến mô phỏng các hệ thống điện tử thông minh.",
     software: "Autodesk Tinkercad (Web App - tinkercad.com)",
+    softwareUrl: "https://www.tinkercad.com/",
     usageGuide: [
        {
         title: "Bước 1: Dashboard (Bảng điều khiển)",

@@ -1,13 +1,31 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SubjectDetail from './components/SubjectDetail';
 import { SUBJECTS } from './constants';
-import { Subject } from './types';
-import { ArrowRight, Code, Cpu, Layers, PenTool, Wifi } from 'lucide-react';
+import { Subject, VideoItem } from './types';
+import { ArrowRight, Code, Cpu, Layers, PenTool, Wifi, Hammer } from 'lucide-react';
 
 function App() {
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [tinkVideos, setTinkVideos] = useState<VideoItem[]>([]);
+
+  // Prefetch videos for Tink Creative immediately on App load
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbz8psYKELXYW8UQRI4Bd-jGdPS7UWaEXFVD-TVahVppeiexUjNL3y0CdbcwT9rnfYsK8w/exec");
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setTinkVideos(data);
+        }
+      } catch (error) {
+        console.error("Failed to prefetch videos:", error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   const getSubjectIcon = (iconStr: string) => {
      // Helper to map string to Lucid icons if needed, currently using emoji in constants, 
@@ -18,6 +36,7 @@ function App() {
          case "📡": return <Wifi className="w-8 h-8 text-white" />; // Rio
          case "🏰": return <Layers className="w-8 h-8 text-white" />;
          case "⚡": return <PenTool className="w-8 h-8 text-white" />;
+         case "🔨": return <Hammer className="w-8 h-8 text-white" />; // Tink Creative
          default: return <Code className="w-8 h-8 text-white" />;
      }
   }
@@ -29,7 +48,8 @@ function App() {
       {selectedSubject ? (
         <SubjectDetail 
           subject={selectedSubject} 
-          onBack={() => setSelectedSubject(null)} 
+          onBack={() => setSelectedSubject(null)}
+          tinkVideos={tinkVideos} 
         />
       ) : (
         <>

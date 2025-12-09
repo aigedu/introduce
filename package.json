@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://aigedu.github.io/introduce/",
+  "homepage": "https://ctdt.aigedu.vn/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
